@@ -17,10 +17,10 @@ describe Employee do
 
   it 'response correct hp after tickets attack' do
     [[:super,     90,  :normal],
-     # [:normal,    60,  :warning],
-     # [:warning,   10,  :dying],
-     # [:dying,     -45, :game_over],
-     # [:game_over, 0,   :game_over]
+     [:normal,    60,  :warning],
+     [:warning,   10,  :dying],
+     [:dying,     -45, :game_over],
+     [:game_over, 0,   :game_over]
     ].each do | state, expect_hp, expect_state |
 
       employee = Employee.new(state: state)
