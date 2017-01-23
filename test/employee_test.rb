@@ -1,6 +1,11 @@
-require 'pry'
+require 'debugger'
 require 'minitest/autorun'
 require_relative '../employee'
+require_relative '../super'
+require_relative '../normal'
+require_relative '../warning'
+require_relative '../dying'
+require_relative '../game_over'
 
 describe Employee do
 
@@ -12,10 +17,10 @@ describe Employee do
 
   it 'response correct hp after tickets attack' do
     [[:super,     90,  :normal],
-     [:normal,    60,  :warning],
-     [:warning,   10,  :dying],
-     [:dying,     -45, :game_over],
-     [:game_over, 0,   :game_over]
+     # [:normal,    60,  :warning],
+     # [:warning,   10,  :dying],
+     # [:dying,     -45, :game_over],
+     # [:game_over, 0,   :game_over]
     ].each do | state, expect_hp, expect_state |
 
       employee = Employee.new(state: state)
@@ -33,7 +38,6 @@ describe Employee do
      [:dying,     60,  :warning],
      [:game_over, 0,   :game_over]
     ].each do | state, expect_hp, expect_state |
-
       employee = Employee.new(state: state)
       employee.take_break
 

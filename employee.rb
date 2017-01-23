@@ -1,41 +1,26 @@
+require "./super"
+require "./normal"
+require "./warning"
+require "./dying"
+require "./game_over"
+
 class Employee
-  attr_reader :state, :hp
+  attr_reader :state, :hp, :spirit
 
   def initialize(state: state)
     @state = state
     @hp    = init_hp
+    @spirit = update_spirit
   end
 
   def tickets_attack(atk)
-    if state == :super
-      @hp -= atk * 0.6
-    elsif state == :normal
-      @hp -= atk * 0.8
-    elsif state == :warning
-      @hp -= atk * 1
-    elsif state == :dying
-      @hp -= atk * 1.5
-    elsif state == :game_over
-      @hp
-    end
-
+    @hp -= spirit.tickets_attack(atk)
     update_state!
   end
 
   def take_break
-   if state == :super
-      @hp -= 10
-   elsif state == :normal
-      @hp += 10
-   elsif state == :warning
-      @hp += 40
-   elsif state == :dying
-      @hp *= 2
-   elsif state == :game_over
-      @hp
-   end
-
-   update_state!
+    @hp += spirit.take_break
+    update_state!
   end
 
   private
@@ -52,6 +37,14 @@ class Employee
              elsif hp <= 0
                :game_over
              end
+
+    update_spirit
+    @state
+  end
+
+  def update_spirit
+    klass = state == :game_over ? "GameOver" : state.to_s.capitalize
+    @spirit = Kernel.const_get(klass).new(hp)
   end
 
   def init_hp
